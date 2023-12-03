@@ -27,5 +27,27 @@ namespace AoC2023Tests
             Assert.That(bag.ValidGameSum, Is.EqualTo(2076));
         }
 
+        [Test]
+        public void Day2_Example2()
+        {
+            Bag bag = new Bag("D2E1");
+            bag.Reds = 12;
+            bag.Greens = 13;
+            bag.Blues = 14;
+
+            Assert.That(bag.PowerOfMinimumSets, Is.EqualTo(2286));
+        }
+
+        [Test]
+        public void Day2_Puzzle2()
+        {
+            Bag bag = new Bag("D2P1");
+            bag.Reds = 12;
+            bag.Greens = 13;
+            bag.Blues = 14;
+
+            Assert.That(bag.PowerOfMinimumSets, Is.EqualTo(70950));
+        }
+
     }
 }

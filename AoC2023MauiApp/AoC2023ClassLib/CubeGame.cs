@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,19 +15,23 @@ namespace AoC2023ClassLib
         public readonly List<CubeGame> games;
         public Bag(string fileName)
         {
-            BestandHelper.ApplicationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); 
-            
+            BestandHelper.ApplicationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             games = new List<CubeGame>();
             loadGames(BestandHelper.Readfile(string.Format(@"Input\{0}.txt", fileName)));
         }
 
         private void loadGames(string[] file)
         {
-           foreach (var line in file)
-           {
+            foreach (var line in file)
+            {
                 CubeGame newGame = new CubeGame(line);
-               games.Add(newGame);
-           }
+                MinimumRed = Math.Max(MinimumRed, newGame.MinimumRed);
+                MinimumGreen = Math.Max(MinimumGreen, newGame.MinimumGreen);
+                MinimumBlue = Math.Max(MinimumBlue, newGame.MinimumBlue);
+
+                games.Add(newGame);
+            }
         }
 
         public int Reds { get; set; }
@@ -44,16 +49,43 @@ namespace AoC2023ClassLib
                     validGameSum += game.ID;
                 }
 
-                
-
                 return validGameSum;
             }
         }
+        public int PowerOfMinimumSets
+        {
+            get
+            {
+                int powerOfMinimumSet = 0;
+                foreach (CubeGame game in games)
+                {
+                    powerOfMinimumSet += game.PowerOfMinimumSet;
+                }
+
+                return powerOfMinimumSet;
+            }
+        }
+
+        public int MinimumRed { get; private set; }
+        public int MinimumGreen { get; private set; }
+        public int MinimumBlue { get; private set; }
+
     }
     public class CubeGame
     {
         public int ID { get; private set; }
-        
+        public int MinimumRed { get; internal set; }
+        public int MinimumGreen { get; internal set; }
+        public int MinimumBlue { get; internal set; }
+        public int PowerOfMinimumSet
+        {
+            get
+            {
+                return MinimumRed * MinimumGreen * MinimumBlue;
+
+            }
+        }
+
         public readonly List<Grab> Grabs;
 
         public CubeGame(string line)
@@ -67,10 +99,14 @@ namespace AoC2023ClassLib
             for (int i = 0; i < grabs.Length; i++)
             {
                 Grab newGrab = new Grab(grabs[i]);
+                MinimumRed = Math.Max(newGrab.Reds, MinimumRed);
+                MinimumGreen = Math.Max(newGrab.Greens, MinimumGreen);
+                MinimumBlue = Math.Max(newGrab.Blues, MinimumBlue);
+
                 Grabs.Add(newGrab);
             }
         }
-                
+
         public bool Valid(int reds, int greens, int blues)
         {
             return Grabs.Max(x => x.Reds) <= reds &&
@@ -83,17 +119,17 @@ namespace AoC2023ClassLib
     {
         public Grab(string cubeGrabs)
         {
-             //   1 red, 2 green, 6 blue
-             string[] colors = new string[3] {"red", "green", "blue"};
-             string[] colorvalues = cubeGrabs.Split(",");
-             for (int i = 0;i < colorvalues.Length;i++)
+            //   1 red, 2 green, 6 blue
+            string[] colors = new string[3] { "red", "green", "blue" };
+            string[] colorvalues = cubeGrabs.Split(",");
+            for (int i = 0; i < colorvalues.Length; i++)
             {
                 foreach (string colorName in colors)
                 {
                     if (colorvalues[i].Contains(colorName))
                     {
                         int number = Convert.ToInt32(colorvalues[i].Replace(colorName, string.Empty).Trim());
-                        if(colorName == "red")
+                        if (colorName == "red")
                         {
                             Reds += number;
                         }
@@ -107,7 +143,7 @@ namespace AoC2023ClassLib
                         }
                         break;
                     }
-                }   
+                }
             }
 
 
@@ -119,6 +155,6 @@ namespace AoC2023ClassLib
         public int Blues { get; set; }
     }
 
-   
+
 
 }
