@@ -1,15 +1,22 @@
 using AoC2023ClassLib;
+using Kerstpuzzel;
 
 namespace AoC2023Tests
 {
     public class Tests
     {
-        [Test]
-        public void Test1()
+       [Test]
+        public void Day1_Example()
         {
-            Class1 classy = new Class1();
-            Assert.IsTrue(classy.Waar);
-          
+            CalibrationValueCalculator.Calculate("D1E");
+            Assert.That(CalibrationValueCalculator.CalibrationSum, Is.EqualTo(142));           
+        }
+
+        [Test]
+        public void Day1_Puzzle1()
+        {
+            CalibrationValueCalculator.Calculate("D1P1");
+            Assert.That(CalibrationValueCalculator.CalibrationSum, Is.EqualTo(55621));
         }
     }
 }
