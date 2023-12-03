@@ -22,7 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Input\D1E.txt">
+	  <None Update="Input\D1E1.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Input\D1E2.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Input\D1P1.txt">
