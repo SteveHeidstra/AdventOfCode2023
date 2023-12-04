@@ -32,10 +32,21 @@ namespace AoC2023ClassLib
         }
 
         public int ID { get; private set; }
-        public int[] CompetingNumbers { get; set; }
-        public int[] WinningNumbers { get; set; }
+        public int[] CompetingNumbers { get; private set; }
+        public int[] WinningNumbers { get; private set; }
+
+        public int Instances { get; set; } = 1;
+
 
         public double Points
+        {
+            get
+            {
+                return Winners==0?0: Math.Pow(2.00,Winners -1);
+            }
+        }
+
+        public double Winners
         {
             get
             {
@@ -47,8 +58,7 @@ namespace AoC2023ClassLib
                         winners++;
                     }
                 }
-                
-                return winners==0?0: Math.Pow(2.00,winners -1);
+                return winners;
             }
         }
     }
